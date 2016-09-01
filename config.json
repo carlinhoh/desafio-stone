@@ -1,0 +1,9 @@
+{
+  "token":"abcd1234",
+  "mysql":{
+    "address":"localhost",
+    "user":"root",
+    "password":"root",
+    "schema": "mydb"
+  }
+}
