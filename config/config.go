@@ -2,6 +2,7 @@ package config
 
 type Config struct {
 	Token		string		`json:"token"`
+	Port		string		`json:"port"`
 	MySqlConfig	MySqlConfig	`json:"mysql"`
 }
 
@@ -12,4 +13,4 @@ type MySqlConfig struct {
 	Schema		string		`json:"schema"`
 }
 
-var Settings Config = new(Config)
+var Settings Config = Config{}

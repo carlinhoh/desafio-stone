@@ -1,5 +1,6 @@
 {
   "token":"abcd1234",
+  "port":"8080",
   "mysql":{
     "address":"localhost",
     "user":"root",

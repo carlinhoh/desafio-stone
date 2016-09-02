@@ -21,11 +21,6 @@ const (
 	DOCUMENT_DESC OrderBy = iota
 )
 
-
-type InvoiceDAO struct {
-
-}
-
 func checkErr(err error) bool{
 	if err != nil {
 		panic(err)
