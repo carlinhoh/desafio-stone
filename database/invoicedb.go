@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
 	"database/sql"
@@ -6,6 +6,8 @@ import (
 	"log"
 	"github.com/go-sql-driver/mysql"
 	"time"
+
+	"github.com/leoferlopes/desafio-stone/model"
 )
 
 type OrderBy uint8
@@ -24,8 +26,16 @@ type InvoiceDAO struct {
 
 }
 
-func read(month *int, year *int, document *string, orderBy []OrderBy, position int, size int) ([]Invoice, error){
-	db, err := dbFactory.GetInstance()
+func checkErr(err error) bool{
+	if err != nil {
+		panic(err)
+		return true
+	}
+	return false
+}
+
+func Read(month *int, year *int, document *string, orderBy []OrderBy, position int, size int) ([]model.Invoice, error){
+	db, err := /*DbFactory.*/GetInstance()
 	if checkErr(err) {
 		return nil, err
 	}
@@ -109,9 +119,9 @@ func read(month *int, year *int, document *string, orderBy []OrderBy, position i
 		return nil, err
 	}
 
-	invoices := []Invoice{}
+	invoices := []model.Invoice{}
 	for rows.Next() {
-		invoice := new(Invoice)
+		invoice := new(model.Invoice)
 		description := new(sql.NullString)
 		amount := new(sql.NullFloat64)
 		deactiveAt := new(mysql.NullTime)
@@ -143,15 +153,15 @@ func read(month *int, year *int, document *string, orderBy []OrderBy, position i
 	return invoices, nil
 }
 
-func readById(id int) (*Invoice, error){
-	db, err := dbFactory.GetInstance()
+func ReadById(id int) (*model.Invoice, error){
+	db, err := /*DbFactory.*/GetInstance()
 	if checkErr(err) {
 		return nil, err
 	}
 
 	query := "SELECT Id, CreatedAt, ReferenceMonth, ReferenceYear, Document, Description, Amount, IsActive, DeactiveAt FROM mydb.Invoice WHERE IsActive <> 0 AND Id = ?"
 
-	invoice := new(Invoice)
+	invoice := new(model.Invoice)
 	description := new(sql.NullString)
 	amount := new(sql.NullFloat64)
 	deactiveAt := new(mysql.NullTime)
@@ -185,8 +195,8 @@ func readById(id int) (*Invoice, error){
 	return invoice, nil
 }
 
-func delete(month *int, year *int, document *string) (int64, error){
-	db, err := dbFactory.GetInstance()
+func Delete(month *int, year *int, document *string) (int64, error){
+	db, err := /*DbFactory.*/GetInstance()
 	if checkErr(err) {
 		return 0, err
 	}
@@ -244,8 +254,8 @@ func delete(month *int, year *int, document *string) (int64, error){
 	return rowCnt, err
 }
 
-func deleteById(id int64) (int64, error){
-	db, err := dbFactory.GetInstance()
+func DeleteById(id int64) (int64, error){
+	db, err := /*DbFactory.*/GetInstance()
 	if checkErr(err) {
 		return 0, err
 	}
@@ -267,8 +277,8 @@ func deleteById(id int64) (int64, error){
 }
 
 //INSERT INTO `mydb`.`Invoice` (`Id`, `CreatedAt`, `ReferenceMonth`, `ReferenceYear`, `Document`, `Description`, `Amount`, `IsActive`) VALUES (NULL, '2016-08-28 12:00', '8', '2016', 'documento', 'descrição', '22.00', '1');
-func create(invoice *Invoice) error{
-	db, err := dbFactory.GetInstance()
+func Create(invoice *model.Invoice) error{
+	db, err := /*DbFactory.*/GetInstance()
 	if checkErr(err) {
 		return err
 	}
