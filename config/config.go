@@ -1,4 +1,4 @@
-package main
+package config
 
 type Config struct {
 	Token		string		`json:"token"`
@@ -11,3 +11,5 @@ type MySqlConfig struct {
 	Password	string		`json:"password"`
 	Schema		string		`json:"schema"`
 }
+
+var Settings Config = new(Config)
